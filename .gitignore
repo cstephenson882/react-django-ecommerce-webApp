@@ -1,0 +1,20 @@
+# Ignore Python virtual environments
+venv/
+.env
+
+# Ignore backend dependencies
+backend/node_modules/
+backend/.env
+
+# Ignore frontend dependencies
+frontend/node_modules/
+frontend/build/
+
+# Misc
+.DS_Store
+*.log
+
+
+
+
+
