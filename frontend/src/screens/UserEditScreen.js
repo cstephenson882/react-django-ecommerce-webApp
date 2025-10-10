@@ -37,6 +37,7 @@ function UserEditScreen() {
     const userDetails = useSelector(state => state.userDetails);
     const {loading, error, user} = userDetails;
     
+    
     const userUpdate = useSelector(state => state.userUpdate);
     const {loading: loadingUpdate, error: errorUpdate, success: successUpdate} = userUpdate;
 
@@ -46,13 +47,14 @@ function UserEditScreen() {
         
         // dispatch(listUsers());
         
-        if (user && user._id === id) {
+        if (user && user._id === Number(id)) {
             
             setName(user.name);
             setEmail(user.email);
             setIsAdmin(user.isAdmin);
         } else {
             dispatch(getUserDetails(id));
+
         }
     }, [dispatch, id, user, successUpdate]);
 
@@ -79,22 +81,23 @@ function UserEditScreen() {
         <FormContainer>
 
         <h1>Edit User</h1>
-        {loadingUpdate && <Loader />}
+        { loadingUpdate && <Loader /> }
+        {loading && <Loader /> }
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
 
-       {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
+       { error ? <Message variant='danger'>{error}</Message> : (
             <form onSubmit={submitHandler} >
                     
                 {/*  for the name input make it required */}
                 <div className="form-group" >
                     <label htmlFor="name">Name</label>
-                    <input type="name"  className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} aria-describedby="nameHelp" placeholder="Enter name" />
+                    <input type="name"  className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} aria-describedby="nameHelp" placeholder={user.name} />
                 </div>
 
                 {/*  for the email input */}
                 <div className="form-group " >
-                <label htmlFor="email">Email address</label>
-                <input type="email"  className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-describedby="emailHelp" placeholder="Enter email" />
+                <label htmlFor="email" >Email address</label>
+                <input type="email"  className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-describedby="emailHelp" placeholder={user.email} />
                 {/* <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small> */}
 
                 </div>
@@ -102,7 +105,7 @@ function UserEditScreen() {
                 {/*  for the password admin */}
                 <div className="form-group" >
                 
-                <input type="checkbox"  className="" id="isAdmin" checked={isAdmin} onChange={(e) => setIsAdmin(e.target.checked)} aria-describedby="isAdminHelp" placeholder="Enter isAdmin" />
+                <input type="checkbox"  className="" id="isAdmin" checked={user.isAdmin} onChange={(e) => setIsAdmin(e.target.checked)} aria-describedby="isAdminHelp" placeholder="Enter isAdmin" />
                 <label htmlFor="isAdmin" className='mx-2'> is Admin</label>
                 </div>
 
